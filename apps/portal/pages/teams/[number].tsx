@@ -62,13 +62,31 @@ const Page: NextPage<TeamProps> = ({ team, awards, events }) => {
             mt: 2,
             justifyContent: {xs: 'center', md: 'flex-start'} 
           }}>
-            {awards && awards.length > 0 ? (
-              awards.map((item, index) => (
-                <AwardBanner 
-                  key={`${item.award.name}-${index}`} 
-                  award={item.award} 
-                  event={item.event} 
-                />
+          {awards && awards.length > 0 ? (
+              Object.entries(
+                awards.reduce((acc: Record<number, { award: PortalAward; event: PortalEvent }[]>, item) => {
+                  const year = new Date(item.event.date).getFullYear();
+                  if (!acc[year]) acc[year] = [];
+                  acc[year].push(item);
+                  return acc;
+                }, {})
+              )
+              .sort(([yearA], [yearB]) => Number(yearB) - Number(yearA))
+              .map(([year, yearAwards]) => (
+                <Box key={year} sx={{ width: '100%' }}>
+                  <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>{year}</Typography>
+                  <Divider sx={{ mb: 2 }} />
+                  <Box sx={{ 
+                    display: 'flex', 
+                    flexWrap: 'wrap', 
+                    gap: 2,
+                    justifyContent: {xs: 'center', md: 'flex-start'} 
+                  }}>
+                    {yearAwards.map((item, index) => (
+                      <AwardBanner key={`${item.award.name}-${index}`} award={item.award} event={item.event} />
+                    ))}
+                  </Box>
+                </Box>
               ))
             ) : (
               <Typography>לא נמצאו פרסים</Typography>

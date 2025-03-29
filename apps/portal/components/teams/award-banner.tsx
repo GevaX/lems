@@ -48,7 +48,7 @@ const AwardBanner: FC<AwardBannerProps> = ({ award, event }) => {
         alt="Award Icon"
         width={75}
         height={45}
-        style={{ marginBottom: 10, marginTop: 10 }}
+        style={{ marginBottom: 5, marginTop: 10 }}
       />
       <Box
         sx={{
@@ -56,7 +56,6 @@ const AwardBanner: FC<AwardBannerProps> = ({ award, event }) => {
           width: "100%",
           height: 35,
           fontWeight: "bold",
-          marginTop: 1,
         }}
       >
         <Typography fontWeight='bold'>{localizedAward[award.name as AwardNames].name} {award.place}</Typography>
