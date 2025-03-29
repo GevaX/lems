@@ -1,13 +1,27 @@
 import express, { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import * as db from '@lems/database';
-import { PortalEvent } from '@lems/types';
+import { PortalEvent, PortalTeam } from '@lems/types';
 import divisionsRouter from './divisions/index';
 import { cache } from '../../../middlewares/cache';
+import teamRouter from './team';
 
 const router = express.Router({ mergeParams: true });
 
 router.use('/', cache(60));
+
+router.get(
+  '/teams',
+  asyncHandler(async (req: Request, res: Response) => {
+    const teams = await db.getAllTeams();
+    const result: Array<PortalTeam> = teams.map(team => {
+      const { _id, number, name, affiliation } = team;
+      return { id: String(_id), number, name, affiliation };
+    });
+
+    res.json(result);
+  })
+);
 
 router.get(
   '/events',
@@ -44,6 +58,7 @@ router.get(
   })
 );
 
+router.use('/teams/:teamNumber', teamRouter);
 router.use('/events/:divisionRouting', divisionsRouter);
 
 export default router;

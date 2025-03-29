@@ -20,6 +20,10 @@ const pages = [
     href: '/events'
   },
   {
+    name: "קבוצות",
+    href: "/teams"
+  },
+  {
     name: 'מחשבון ניקוד',
     href: '/scorer'
   }

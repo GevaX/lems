@@ -10,6 +10,10 @@ export const getDivisionTeams = (divisionId: ObjectId) => {
   return db.collection<Team>('teams').find({ divisionId }).toArray();
 };
 
+export const getAllTeams = () => {
+  return db.collection<Team>('teams').find({}).toArray();
+};
+
 export const addTeam = (team: Team) => {
   return db.collection<Team>('teams').insertOne(team);
 };
