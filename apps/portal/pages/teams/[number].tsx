@@ -3,8 +3,8 @@ import { NextPage, GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { Avatar, Container, Divider, Paper, Typography, Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { PortalAward, PortalEvent, PortalTeam } from "@lems/types";
-import EventList from "../../components/events/event-list";
 import AwardBanner from "../../components/teams/award-banner";
+import TeamEventList from "../../components/teams/team-event-list";
 
 interface TeamProps {
   team: PortalTeam;
@@ -46,8 +46,9 @@ const Page: NextPage<TeamProps> = ({ team, awards, events }) => {
           <Typography variant="h5">
             היסטורית תחרויות
           </Typography>
-          <EventList
+          <TeamEventList
             events={events}
+            team={team}
             emptyText="שגיאת מערכת."
           />
         </Grid>

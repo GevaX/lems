@@ -1,5 +1,6 @@
 import { NextPage, GetServerSideProps, GetServerSidePropsContext } from 'next';
-import { Container } from '@mui/material';
+import { Button, Container, Link } from '@mui/material';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Grid from '@mui/material/Grid2';
 import {
   PortalAward,
@@ -47,10 +48,23 @@ const Page: NextPage<Props> = ({ team, event, awards }) => {
 
   return (
     <Container maxWidth="md" sx={{ mt: 2 }}>
+      <Button variant='text' href={`/events/${event.routing}`}>
+        <ArrowBackIcon sx={{ transform: 'scaleX(-1)' }} />
+        לדף האירוע
+      </Button>
       <Grid container rowSpacing={2} columnSpacing={2}>
         <Grid size={{ xs: 12, md: 6 }} display="flex" flexDirection="column">
           <TeamInfo team={team} event={event} />
           {awards && awards.length > 0 && <TeamAwards awards={awards} />}
+          <Button
+            variant="contained"
+            fullWidth
+            sx={{ borderRadius: 2, minHeight: 25 }}
+            LinkComponent={Link}
+            href={`/teams/${team.number}`}
+          >
+            גש לדף הקבוצה
+          </Button>
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
           {(scoresLoading || scoresError || statusLoading || statusError) && <LoadingAnimation />}
