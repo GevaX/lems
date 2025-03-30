@@ -8,7 +8,7 @@ import AwardBanner from "../../components/teams/award-banner";
 
 interface TeamProps {
   team: PortalTeam;
-  events: PortalEvent[]; 
+  events: PortalEvent[];
   awards: { award: PortalAward; event: PortalEvent }[] | [];
 }
 
@@ -44,25 +44,25 @@ const Page: NextPage<TeamProps> = ({ team, awards, events }) => {
         <br />
         <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="h5">
-          היסטורית תחרויות
+            היסטורית תחרויות
           </Typography>
-          <EventList 
+          <EventList
             events={events}
             emptyText="שגיאת מערכת."
           />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="h5">
-          היסטורית פרסים
+            היסטורית פרסים
           </Typography>
-          <Box sx={{ 
-            display: 'flex', 
-            flexWrap: 'wrap', 
-            gap: 2, 
+          <Box sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 2,
             mt: 2,
-            justifyContent: {xs: 'center', md: 'flex-start'} 
+            justifyContent: { xs: 'center', md: 'flex-start' }
           }}>
-          {awards && awards.length > 0 ? (
+            {awards && awards.length > 0 ? (
               Object.entries(
                 awards.reduce((acc: Record<number, { award: PortalAward; event: PortalEvent }[]>, item) => {
                   const year = new Date(item.event.date).getFullYear();
@@ -71,23 +71,23 @@ const Page: NextPage<TeamProps> = ({ team, awards, events }) => {
                   return acc;
                 }, {})
               )
-              .sort(([yearA], [yearB]) => Number(yearB) - Number(yearA))
-              .map(([year, yearAwards]) => (
-                <Box key={year} sx={{ width: '100%' }}>
-                  <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>{year}</Typography>
-                  <Divider sx={{ mb: 2 }} />
-                  <Box sx={{ 
-                    display: 'flex', 
-                    flexWrap: 'wrap', 
-                    gap: 2,
-                    justifyContent: {xs: 'center', md: 'flex-start'} 
-                  }}>
-                    {yearAwards.map((item, index) => (
-                      <AwardBanner key={`${item.award.name}-${index}`} award={item.award} event={item.event} />
-                    ))}
+                .sort(([yearA], [yearB]) => Number(yearB) - Number(yearA))
+                .map(([year, yearAwards]) => (
+                  <Box key={year} sx={{ width: '100%' }}>
+                    <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>{year}</Typography>
+                    <Divider sx={{ mb: 2 }} />
+                    <Box sx={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: 2,
+                      justifyContent: { xs: 'center', md: 'flex-start' }
+                    }}>
+                      {yearAwards.map((item, index) => (
+                        <AwardBanner key={`${item.award.name}-${index}`} award={item.award} event={item.event} />
+                      ))}
+                    </Box>
                   </Box>
-                </Box>
-              ))
+                ))
             ) : (
               <Typography>לא נמצאו פרסים</Typography>
             )}
@@ -102,7 +102,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
   const teamNumber = ctx.params?.number as string;
 
   const { team, awards, events } = await fetchGlobalTeam(teamNumber);
-  console.log(awards);
   return { props: { team, awards, events } };
 };
 

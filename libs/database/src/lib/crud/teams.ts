@@ -14,6 +14,14 @@ export const getAllTeams = () => {
   return db.collection<Team>('teams').find({}).toArray();
 };
 
+export const getTeamEvents = async (teamNumber: number) => {
+  const results = await db.collection<Team>('teams')
+    .find({ number: teamNumber }, { projection: { divisionId: 1, _id: 0 } })
+    .toArray();
+
+  return results.map(team => team.divisionId);
+}
+
 export const addTeam = (team: Team) => {
   return db.collection<Team>('teams').insertOne(team);
 };

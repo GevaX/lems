@@ -55,7 +55,7 @@ export const fetchEvent = async (id: string) => {
   return { event, teams };
 };
 
-export const fetchAllTeams = async ():Promise<PortalTeam[]> => {
+export const fetchAllTeams = async (): Promise<PortalTeam[]> => {
   const teams: PortalTeam[] = await apiFetch(`/teams`);
   return teams;
 }
@@ -65,7 +65,7 @@ export const fetchGlobalTeam = async (teamNumber: string) => {
 
   const awards: { award: PortalAward; event: PortalEvent }[] = [];
   const events: PortalEvent[] = await fetchTeamEvents(team);
-  
+
   for (const event of events) {
     try {
       const eventAwards = await apiFetch<PortalAward[] | null>(
@@ -86,16 +86,7 @@ export const fetchGlobalTeam = async (teamNumber: string) => {
 };
 
 export const fetchTeamEvents = async (team: PortalTeam) => {
-  const allEvents: PortalEvent[] = await apiFetch('/events');
-  const teamEvents: PortalEvent[] = [];
-
-  for (const event of allEvents) {
-    const teams: PortalTeam[] = await apiFetch(`/events/${event.routing}/teams`);
-    if (teams.some(t => t.number === team.number)) {
-      teamEvents.push(event);
-    }
-  }
-
+  const teamEvents = await apiFetch<PortalEvent[]>(`/teams/${team.number}/events`);
   return teamEvents;
 };
 

@@ -10,6 +10,10 @@ export const getDivisions = (filter: Filter<Division>) => {
   return db.collection<Division>('divisions').find(filter).toArray();
 };
 
+export const getDivisonsOID = (oids: ObjectId[]) => {
+  return db.collection<Division>('divisions').find({ _id: { $in: oids } }).toArray();
+}
+
 export const getDivisionWithEvent = (filter: Filter<Division>) => {
   return db
     .collection<Division>('divisions')
